@@ -2,15 +2,17 @@
 
 Ovaj projekt izrađen je kao praktični dio završnog rada na temu **Klasifikacija slika životinja temeljena na konvolucijskim neuronskim mrežama**. Cilj projekta je razviti program koji na temelju ulazne slike određuje nalazi li se na slici pas ili mačka.
 
-Za izradu modela korišten je programski jezik Python te biblioteke TensorFlow i Keras. Modeli su trenirani i validirani na dijelu skupa podataka **Kaggle Cats vs Dogs**.
+Za izradu modela korišten je programski jezik Python te biblioteke TensorFlow i Keras. Modeli su trenirani i validirani na dijelu skupa podataka **Kaggle Cats vs Dogs**. Uz konvolucijske modele, kao klasični polazišni pristup implementiran je i Bayesov klasifikator u programskom jeziku C.
 
 ## Korišteni modeli
 
-U projektu su implementirana tri modela:
+U projektu su implementirana tri modela temeljena na konvolucijskim neuronskim mrežama:
 
 1. **CNN1** – osnovni konvolucijski model s dva konvolucijska bloka.
 2. **CNN2** – poboljšani CNN model s dodatnim konvolucijskim slojem i Dropout regularizacijom.
 3. **CNN3** – model temeljen na MobileNetV2 arhitekturi i transfer learning pristupu.
+
+Uz navedene modele implementiran je i **Bayesov klasifikator** (`bayes_classifier.c`) u jeziku C, koji služi kao klasični polazišni pristup za usporedbu s konvolucijskim modelima.
 
 ## Struktura projekta
 
@@ -24,6 +26,7 @@ ZAVRSNI_RAD/
 │       ├── cats/
 │       └── dogs/
 ├── results/
+├── bayes_classifier.c
 ├── dataset.py
 ├── models.py
 ├── prepare_small_dataset.py
@@ -40,6 +43,7 @@ ZAVRSNI_RAD/
 * `train.py` – trenira osnovni CNN model.
 * `train2.py` – trenira poboljšani CNN model.
 * `train3.py` – trenira MobileNetV2 transfer learning model.
+* `bayes_classifier.c` – implementacija Bayesova klasifikatora u jeziku C, korištenog kao klasični polazišni pristup za usporedbu s konvolucijskim modelima.
 * `results/` – mapa u koju se spremaju trenirani modeli i grafovi točnosti i funkcije gubitka.
 
 ## Priprema okruženja
@@ -115,6 +119,24 @@ python train2.py
 ```powershell
 python train3.py
 ```
+
+## Bayesov klasifikator (C)
+
+Bayesov klasifikator implementiran je u jeziku C, odvojeno od Python dijela, kao klasični polazišni pristup za usporedbu s konvolucijskim modelima. Kod se nalazi u datoteci `bayes_classifier.c`.
+
+Kompajliranje (uz GCC / MinGW na Windowsu):
+
+```powershell
+gcc bayes_classifier.c -o bayes_classifier.exe -lm
+```
+
+Pokretanje:
+
+```powershell
+.\bayes_classifier.exe
+```
+
+> **Napomena:** navedene naredbe prilagodite stvarnom kodu. Zastavica `-lm` potrebna je ako program koristi matematičke funkcije (primjerice `exp`, `sqrt`, `log`), a način pokretanja ovisi o tome čita li program podatke iz unaprijed zadane putanje ili ih prima kao argument naredbenog retka.
 
 ## Rezultati
 
